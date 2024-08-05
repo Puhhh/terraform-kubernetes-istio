@@ -52,7 +52,7 @@ variable "helm-chart-version" {
   type        = map(string)
   default = {
     istio           = "1.22.2"
-    custom-manifest = "0.1.0"
+    custom-manifest = "0.0.1"
   }
 }
 
