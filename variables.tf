@@ -20,10 +20,10 @@ variable "helm-name" {
   description = "Helm Release Name"
   type        = map(string)
   default = {
-    istio-base            = "base"
-    istiod                = "istiod"
-    istio-ingress-gateway = "gateway"
-    peerauthentication    = "peerauthentication"
+    istio-base         = "base"
+    istiod             = "istiod"
+    istio-ingress      = "gateway"
+    peerauthentication = "peerauthentication"
   }
 }
 
@@ -31,10 +31,10 @@ variable "helm-chart-name" {
   description = "Helm Chart Name"
   type        = map(string)
   default = {
-    istio-base            = "base"
-    istiod                = "istiod"
-    istio-ingress-gateway = "gateway"
-    peerauthentication    = "custom-manifest"
+    istio-base         = "base"
+    istiod             = "istiod"
+    istio-ingress      = "gateway"
+    peerauthentication = "custom-manifest"
   }
 }
 
@@ -66,10 +66,10 @@ variable "helm-custom-values-path" {
   description = "Helm Custom Values Path"
   type        = map(string)
   default = {
-    istio-base            = ""
-    istiod                = ""
-    istio-ingress-gateway = ""
-    peerauthentication    = ""
+    istio-base         = ""
+    istiod             = ""
+    istio-ingress      = ""
+    peerauthentication = ""
   }
 }
 
@@ -77,4 +77,16 @@ variable "peerauthentication-mode" {
   description = "PeerAuthentication Mode"
   type        = string
   default     = "STRICT"
+}
+
+variable "istio-ingress-gateway" {
+  description = "Create Istio Ingress Gateway"
+  type        = bool
+  default     = false
+}
+
+variable "istio-ingress-gateway-name" {
+  description = "Istio Ingress Gateway Name"
+  type        = string
+  default     = "gateway"
 }

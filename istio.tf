@@ -25,15 +25,15 @@ resource "helm_release" "istiod" {
   values = var.helm-custom-values ? [file("${var.helm-custom-values-path["istiod"]}")] : []
 }
 
-resource "helm_release" "istio-ingress-gateway" {
+resource "helm_release" "istio-ingress" {
   create_namespace = var.istio-ingress-namespace == kubernetes_namespace.istio-namespace.metadata[0].name ? false : true
   namespace        = var.istio-ingress-namespace
-  name             = var.helm-name["istio-ingress-gateway"]
-  chart            = var.helm-chart-name["istio-ingress-gateway"]
+  name             = var.helm-name["istio-ingress"]
+  chart            = var.helm-chart-name["istio-ingress"]
   repository       = var.helm-chart-repo["istio"]
   version          = var.helm-chart-version["istio"]
 
-  values = var.helm-custom-values ? [file("${var.helm-custom-values-path["istio-ingress-gateway"]}")] : []
+  values = var.helm-custom-values ? [file("${var.helm-custom-values-path["istio-ingress"]}")] : []
 }
 
 resource "helm_release" "peerauthentication" {
@@ -51,4 +51,39 @@ resource "helm_release" "peerauthentication" {
       mode      = var.peerauthentication-mode
     })}"
   ] : []
+}
+
+resource "kubernetes_manifest" "gateway" {
+  depends_on = [helm_release.istio-ingress]
+
+  count = var.istio-ingress-gateway == true ? 1 : 0
+
+  manifest = {
+    "apiVersion" = "networking.istio.io/v1"
+    "kind"       = "Gateway"
+    "metadata" = {
+      "name"      = var.istio-ingress-gateway-name
+      "namespace" = var.istio-ingress-namespace
+    }
+    "spec" = {
+      "selector" = {
+        "istio" = var.istio-ingress-namespace
+      }
+      "servers" = [
+        {
+          "hosts" = [
+            "*",
+          ]
+          "port" = {
+            "name"     = "http"
+            "number"   = 80
+            "protocol" = "HTTP"
+          }
+          "tls" = {
+            "httpsRedirect" = true
+          }
+        },
+      ]
+    }
+  }
 }
