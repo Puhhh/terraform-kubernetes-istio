@@ -66,9 +66,6 @@ resource "kubernetes_manifest" "gateway" {
       "namespace" = var.istio-ingress-namespace
     }
     "spec" = {
-      "selector" = {
-        "istio" = var.istio-ingress-namespace
-      }
       "servers" = [
         {
           "hosts" = [
