@@ -66,10 +66,10 @@ variable "helm-custom-values-path" {
   description = "Helm Custom Values Path"
   type        = map(string)
   default = {
-    istio-base         = ""
-    istiod             = ""
-    istio-ingress      = ""
-    peerauthentication = ""
+    istio-base         = "istio-base.yaml"
+    istiod             = "istiod.yaml"
+    istio-ingress      = "istio-ingress.yaml"
+    peerauthentication = "peerauthentication.yaml"
   }
 }
 
