@@ -15,4 +15,4 @@ terraform apply
 ## Optional 
 
 * If you need to change the default values of variables, add them to the *terraform.tfvars* file.
-* If the value of *custom_values* is *true*, *values* will be used. You can modify *values*.
+* If the value of *helm-custom-values* is *true*, *values* will be used. You can modify *values*.
