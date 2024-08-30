@@ -37,7 +37,7 @@ No modules.
 | <a name="input_helm-chart-repo"></a> [helm-chart-repo](#input\_helm-chart-repo) | Helm Chart Repo | `map(string)` | <pre>{<br>  "custom-manifest": "https://puhhh.github.io/pages-helm-repo/",<br>  "istio": "https://istio-release.storage.googleapis.com/charts"<br>}</pre> | no |
 | <a name="input_helm-chart-version"></a> [helm-chart-version](#input\_helm-chart-version) | Helm Chart Version | `map(string)` | <pre>{<br>  "custom-manifest": "0.0.1",<br>  "istio": "1.22.2"<br>}</pre> | no |
 | <a name="input_helm-custom-values"></a> [helm-custom-values](#input\_helm-custom-values) | Use Helm Custom Values | `bool` | `false` | no |
-| <a name="input_helm-custom-values-path"></a> [helm-custom-values-path](#input\_helm-custom-values-path) | Helm Custom Values Path | `map(string)` | <pre>{<br>  "istio-base": "istio-base.yaml",<br>  "istio-ingress": "istio-ingress.yaml",<br>  "istiod": "istiod.yaml",<br>  "peerauthentication": "peerauthentication.yaml"<br>}</pre> | no |
+| <a name="input_helm-custom-values-path"></a> [helm-custom-values-path](#input\_helm-custom-values-path) | Helm Custom Values Path | `map(string)` | <pre>{<br>  "istio-base": "",<br>  "istio-ingress": "",<br>  "istiod": "",<br>  "peerauthentication": ""<br>}</pre> | no |
 | <a name="input_helm-name"></a> [helm-name](#input\_helm-name) | Helm Release Name | `map(string)` | <pre>{<br>  "istio-base": "base",<br>  "istio-ingress": "gateway",<br>  "istiod": "istiod",<br>  "peerauthentication": "peerauthentication"<br>}</pre> | no |
 | <a name="input_istio-ingress-gateway"></a> [istio-ingress-gateway](#input\_istio-ingress-gateway) | Create Istio Ingress Gateway | `bool` | `false` | no |
 | <a name="input_istio-ingress-gateway-name"></a> [istio-ingress-gateway-name](#input\_istio-ingress-gateway-name) | Istio Ingress Gateway Name | `string` | `"gateway"` | no |
@@ -50,13 +50,3 @@ No modules.
 
 No outputs.
 <!-- END_TF_DOCS -->
-
-## How to use
-
-Change S3 values 
-
-## Optional 
-
-If you need to change the default values of variables, add them to the *terraform.tfvars* file.
-
-If the value of *helm-custom-values* is *true*, *values* will be used. You can modify *values*.

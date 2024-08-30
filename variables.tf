@@ -66,10 +66,15 @@ variable "helm-custom-values-path" {
   description = "Helm Custom Values Path"
   type        = map(string)
   default = {
-    istio-base         = "istio-base.yaml"
-    istiod             = "istiod.yaml"
-    istio-ingress      = "istio-ingress.yaml"
-    peerauthentication = "peerauthentication.yaml"
+    istio-base         = ""
+    istiod             = ""
+    istio-ingress      = ""
+    peerauthentication = ""
+  }
+
+  validation {
+    condition     = !(var.helm-custom-values && var.helm-custom-values-path["istio-base"] == "" && var.helm-custom-values-path["istiod"] == "" && var.helm-custom-values-path["istio-ingress"] == "" && var.helm-custom-values-path["peerauthentication"] == "")
+    error_message = "helm-custom-values-path must not be null when helm-custom-values is true."
   }
 }
 
