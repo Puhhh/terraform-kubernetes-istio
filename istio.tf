@@ -11,7 +11,7 @@ resource "helm_release" "istio-base" {
   repository = var.helm-chart-repo["istio"]
   version    = var.helm-chart-version["istio"]
 
-  values = var.helm-custom-values ? [file("${var.helm-custom-values-path["istio-base"]}")] : []
+  values = var.helm-custom-values ? [file(var.helm-custom-values-path["istio-base"])] : []
 
 }
 
@@ -22,7 +22,7 @@ resource "helm_release" "istiod" {
   repository = var.helm-chart-repo["istio"]
   version    = var.helm-chart-version["istio"]
 
-  values = var.helm-custom-values ? [file("${var.helm-custom-values-path["istiod"]}")] : []
+  values = var.helm-custom-values ? [file(var.helm-custom-values-path["istiod"])] : []
 }
 
 resource "helm_release" "istio-ingress" {
@@ -33,7 +33,7 @@ resource "helm_release" "istio-ingress" {
   repository       = var.helm-chart-repo["istio"]
   version          = var.helm-chart-version["istio"]
 
-  values = var.helm-custom-values ? [file("${var.helm-custom-values-path["istio-ingress"]}")] : []
+  values = var.helm-custom-values ? [file(var.helm-custom-values-path["istio-ingress"])] : []
 }
 
 resource "helm_release" "peerauthentication" {
@@ -46,10 +46,10 @@ resource "helm_release" "peerauthentication" {
   version    = var.helm-chart-version["custom-manifest"]
 
   values = var.helm-custom-values ? [
-    "${templatefile("${var.helm-custom-values-path["peerauthentication"]}", {
+    templatefile(var.helm-custom-values-path["peerauthentication"], {
       namespace = kubernetes_namespace.istio-namespace.metadata[0].name,
       mode      = var.peerauthentication-mode
-    })}"
+    })
   ] : []
 }
 
