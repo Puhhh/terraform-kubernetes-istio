@@ -10,9 +10,9 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_helm"></a> [helm](#provider\_helm) | 2.14.0 |
+| <a name="provider_helm"></a> [helm](#provider\_helm) | 2.15.0 |
 | <a name="provider_kubectl"></a> [kubectl](#provider\_kubectl) | 1.14.0 |
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.31.0 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.32.0 |
 
 ## Modules
 
@@ -43,6 +43,7 @@ No modules.
 | <a name="input_istio-ingress-gateway-name"></a> [istio-ingress-gateway-name](#input\_istio-ingress-gateway-name) | Istio Ingress Gateway Name | `string` | `"gateway"` | no |
 | <a name="input_istio-ingress-namespace"></a> [istio-ingress-namespace](#input\_istio-ingress-namespace) | Istio Ingress Namespace | `string` | `"istio-ingress"` | no |
 | <a name="input_istio-system-namespace"></a> [istio-system-namespace](#input\_istio-system-namespace) | Istio System Namespace | `string` | `"istio-system"` | no |
+| <a name="input_kube-context"></a> [kube-context](#input\_kube-context) | Kubernetes Context to Use | `string` | `""` | no |
 | <a name="input_kubeconfig-path"></a> [kubeconfig-path](#input\_kubeconfig-path) | Kubeconfig Path | `string` | `"~/.kube/config"` | no |
 | <a name="input_peerauthentication-mode"></a> [peerauthentication-mode](#input\_peerauthentication-mode) | PeerAuthentication Mode | `string` | `"STRICT"` | no |
 
