@@ -16,6 +16,14 @@ variable "istio-system-namespace" {
   default     = "istio-system"
 }
 
+variable "namespace-labels" {
+  description = "Namespace Labels"
+  type        = map(string)
+  default = {
+    "pod-security.kubernetes.io/enforce" = "privileged"
+  }
+}
+
 variable "istio-ingress-namespace" {
   description = "Istio Ingress Namespace"
   type        = string
@@ -30,6 +38,8 @@ variable "helm-name" {
     istiod             = "istiod"
     istio-ingress      = "gateway"
     peerauthentication = "peerauthentication"
+    istio-cni          = "istio-cni"
+    istio-gateway      = "istio-gateway"
   }
 }
 
@@ -41,6 +51,8 @@ variable "helm-chart-name" {
     istiod             = "istiod"
     istio-ingress      = "gateway"
     peerauthentication = "custom-manifest"
+    istio-cni          = "cni"
+    istio-gateway      = "custom-manifest"
   }
 }
 
@@ -76,10 +88,11 @@ variable "helm-custom-values-path" {
     istiod             = ""
     istio-ingress      = ""
     peerauthentication = ""
+    istio-gateway      = ""
   }
 
   validation {
-    condition     = !(var.helm-custom-values && var.helm-custom-values-path["istio-base"] == "" && var.helm-custom-values-path["istiod"] == "" && var.helm-custom-values-path["istio-ingress"] == "" && var.helm-custom-values-path["peerauthentication"] == "")
+    condition     = !(var.helm-custom-values && var.helm-custom-values-path["istio-base"] == "" && var.helm-custom-values-path["istiod"] == "" && var.helm-custom-values-path["istio-ingress"] == "" && var.helm-custom-values-path["peerauthentication"] == "" && var.helm-custom-values-path["istio-gateway"] == "")
     error_message = "helm-custom-values-path must not be null when helm-custom-values is true."
   }
 }
@@ -100,4 +113,10 @@ variable "istio-ingress-gateway-name" {
   description = "Istio Ingress Gateway Name"
   type        = string
   default     = "gateway"
+}
+
+variable "use-istio-cni" {
+  description = "Use Istio CNI to configure traffic redirection for pods in the mesh"
+  type        = bool
+  default     = false
 }

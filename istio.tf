@@ -1,6 +1,7 @@
 resource "kubernetes_namespace" "istio-namespace" {
   metadata {
-    name = var.istio-system-namespace
+    name   = var.istio-system-namespace
+    labels = var.namespace-labels
   }
 }
 
@@ -53,26 +54,31 @@ resource "helm_release" "peerauthentication" {
   ] : []
 }
 
-resource "kubectl_manifest" "gateway" {
+resource "helm_release" "istio-cni" {
+  count = var.use-istio-cni ? 1 : 0
+
+  namespace  = kubernetes_namespace.istio-namespace.metadata[0].name
+  name       = var.helm-name["istio-cni"]
+  chart      = var.helm-chart-name["istio-cni"]
+  repository = var.helm-chart-repo["istio"]
+  version    = var.helm-chart-version["istio"]
+}
+
+resource "helm_release" "istio-gateway" {
   depends_on = [helm_release.istio-ingress]
 
   count = var.istio-ingress-gateway == true ? 1 : 0
 
-  yaml_body = <<YAML
-  apiVersion: networking.istio.io/v1
-  kind: Gateway
-  metadata:
-    name: ${var.istio-ingress-gateway-name}
-    namespace: ${var.istio-ingress-namespace}
-  spec:
-    servers:
-      - hosts:
-          - "*"
-        port:
-          name: http
-          number: 80
-          protocol: HTTP
-        tls:
-          httpsRedirect: true
-  YAML
+  namespace  = helm_release.istio-ingress.namespace
+  name       = var.helm-name["istio-gateway"]
+  chart      = var.helm-chart-name["istio-gateway"]
+  repository = var.helm-chart-repo["custom-manifest"]
+  version    = var.helm-chart-version["custom-manifest"]
+
+  values = var.helm-custom-values ? [
+    templatefile(var.helm-custom-values-path["istio-gateway"], {
+      name      = var.istio-ingress-gateway-name,
+      namespace = helm_release.istio-ingress.namespace
+    })
+  ] : []
 }
