@@ -30,19 +30,6 @@ variable "istio-ingress-namespace" {
   default     = "istio-ingress"
 }
 
-variable "helm-name" {
-  description = "Helm Release Name"
-  type        = map(string)
-  default = {
-    istio-base         = "base"
-    istiod             = "istiod"
-    istio-ingress      = "gateway"
-    peerauthentication = "peerauthentication"
-    istio-cni          = "istio-cni"
-    istio-gateway      = "istio-gateway"
-  }
-}
-
 variable "helm-chart-name" {
   description = "Helm Chart Name"
   type        = map(string)
