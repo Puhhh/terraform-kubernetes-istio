@@ -7,7 +7,7 @@ resource "kubernetes_namespace" "istio-namespace" {
 
 resource "helm_release" "istio-base" {
   namespace  = kubernetes_namespace.istio-namespace.metadata[0].name
-  name       = var.helm-chart-name["istio-base"]
+  name       = var.helm-name["istio-base"]
   chart      = var.helm-chart-name["istio-base"]
   repository = var.helm-chart-repo["istio"]
   version    = var.helm-chart-version["istio"]
@@ -18,7 +18,7 @@ resource "helm_release" "istio-base" {
 
 resource "helm_release" "istiod" {
   namespace  = kubernetes_namespace.istio-namespace.metadata[0].name
-  name       = var.helm-chart-name["istiod"]
+  name       = var.helm-name["istiod"]
   chart      = var.helm-chart-name["istiod"]
   repository = var.helm-chart-repo["istio"]
   version    = var.helm-chart-version["istio"]
@@ -29,7 +29,7 @@ resource "helm_release" "istiod" {
 resource "helm_release" "istio-ingress" {
   create_namespace = var.istio-ingress-namespace == kubernetes_namespace.istio-namespace.metadata[0].name ? false : true
   namespace        = var.istio-ingress-namespace
-  name             = var.helm-chart-name["istio-ingress"]
+  name             = var.helm-name["istio-ingress"]
   chart            = var.helm-chart-name["istio-ingress"]
   repository       = var.helm-chart-repo["istio"]
   version          = var.helm-chart-version["istio"]
@@ -41,7 +41,7 @@ resource "helm_release" "peerauthentication" {
   depends_on = [helm_release.istio-base]
 
   namespace  = kubernetes_namespace.istio-namespace.metadata[0].name
-  name       = var.helm-chart-name["peerauthentication"]
+  name       = var.helm-name["peerauthentication"]
   chart      = var.helm-chart-name["peerauthentication"]
   repository = var.helm-chart-repo["custom-manifest"]
   version    = var.helm-chart-version["custom-manifest"]
@@ -58,7 +58,7 @@ resource "helm_release" "istio-cni" {
   count = var.use-istio-cni ? 1 : 0
 
   namespace  = kubernetes_namespace.istio-namespace.metadata[0].name
-  name       = var.helm-chart-name["istio-cni"]
+  name       = var.helm-name["istio-cni"]
   chart      = var.helm-chart-name["istio-cni"]
   repository = var.helm-chart-repo["istio"]
   version    = var.helm-chart-version["istio"]
@@ -70,7 +70,7 @@ resource "helm_release" "istio-gateway" {
   count = var.istio-ingress-gateway == true ? 1 : 0
 
   namespace  = helm_release.istio-ingress.namespace
-  name       = var.helm-chart-name["istio-gateway"]
+  name       = var.helm-name["istio-gateway"]
   chart      = var.helm-chart-name["istio-gateway"]
   repository = var.helm-chart-repo["custom-manifest"]
   version    = var.helm-chart-version["custom-manifest"]
